@@ -1,0 +1,22 @@
+{% extends "layout.html" %}
+
+{% block content %}
+<main class="container">
+
+    <div class="row">
+        <div class="col">
+            <h3>Prediction for Case_{{ subject_id }}</h3>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col">
+            <h4>Event index: {{ event_id }}</h4>
+            <img src={{ url_pred }} alt="Prediction_Figure" , width=450, hight=300>
+        </div>
+        <div class="col">
+            <h4>Average Prediction of All Events</h4>
+            <img src={{ url_avg }} alt="Average of all evenets" , width=450, hight=300>
+        </div>
+    </div>
+</main>
+{% endblock content %}
