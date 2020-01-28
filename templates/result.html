@@ -5,18 +5,19 @@
 
     <div class="row">
         <div class="col">
-            <h3>Prediction for Case_{{ subject_id }}</h3>
+            <h2>Prediction:</h2>
         </div>
     </div>
     <div class="row">
         <div class="col">
+            <h4>Case: {{ subject_id }}</h4>
             <h4>Event index: {{ event_id }}</h4>
-            <img src={{ url_pred }} alt="Prediction_Figure" , width=450, hight=300>
+            <img src={{ url_pred }} alt="Prediction_Figure" , width=600, hight=400>
         </div>
-        <div class="col">
+        <!-- <div class="col">
             <h4>Average Prediction of All Events</h4>
             <img src={{ url_avg }} alt="Average of all evenets" , width=450, hight=300>
-        </div>
+        </div> -->
     </div>
 </main>
 {% endblock content %}

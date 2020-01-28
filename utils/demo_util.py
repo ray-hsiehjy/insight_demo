@@ -115,56 +115,11 @@ def make_plot(
     )
     # plot ref line
     ax.hlines(y=[0.5], xmin=0, xmax=total_seg, linestyles="--", color="k", alpha=0.4)
-    ax.set(
-        xlabel="Time (seconds)", ylabel="Prob abnormal",
-    )
-    ax.legend(loc="upper left")
+    ax.set_xlabel("Time (seconds)", size=16)
+    ax.set_ylabel("Prob abnormal", size=16)
+    ax.legend(loc="upper left", fontsize="x-large")
     # save figure for individual event
     fig.savefig(f"static/img/prediction.png")
-
-
-# def make_plot_avg(pred, alarm, label_Tx, event_indices, pre_sec, post_sec):
-#     fig, ax = plt.subplots(figsize=(8, 6), dpi=150)
-
-#     total_seg = pre_sec + post_sec
-#     seg_shift = total_seg - alarm.shape[0]
-#     MD_label = (label_Tx[event_indices] > 1).reshape(-1, total_seg).mean(axis=0)
-
-#     # plot predicted prob
-#     ax.plot(
-#         np.arange(total_seg),
-#         pred,
-#         color="C0",
-#         label="Pred Prob",
-#         linewidth=3,
-#         linestyle="--",
-#     )
-#     # plot doc label
-#     ax.plot(
-#         np.arange(total_seg),
-#         MD_label,
-#         color="C1",
-#         label="Clinician Label",
-#         linewidth=3,
-#         linestyle="--",
-#     )
-#     # plot alarm
-#     for threshold in ["L", ]
-#     ax.plot(
-#         np.arange(seg_shift, total_seg),
-#         alarm,
-#         color="r",
-#         label=f"Alarm={threshold}",
-#         linewidth=3,
-#     )
-#     # plot ref line
-#     ax.hlines(y=[0.5], xmin=0, xmax=total_seg, linestyles="--", color="k", alpha=0.4)
-#     ax.set(
-#         xlabel="Time (seconds)", ylabel="Prob abnormal",
-#     )
-#     ax.legend(loc="upper left")
-#     # save figure for individual event
-#     fig.savefig(f"static/img/prediction_avg.png")
 
 
 def generate_fig(subject_id, event_id, pre_sec, post_sec, threshold):
