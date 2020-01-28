@@ -3,6 +3,7 @@ import numpy as np
 from sklearn.preprocessing import StandardScaler, MinMaxScaler
 from tensorflow.keras.models import load_model
 import matplotlib.pyplot as plt
+import seaborn as sns
 
 
 def load_data(subject_id: int):
@@ -50,7 +51,7 @@ def create_Tx(X, y, Tx):
     return binned_X, binned_y
 
 
-def get_event_indices(subject_id, event_id, label_Tx, pre_sec, post_sec):
+def get_event_indices(subject_id, label_Tx, pre_sec, post_sec):
 
     starts = np.where(label_Tx == 1)[0][7::8] + 1  # first label==2 of every event
     event_indices = [np.arange(start - pre_sec, start + post_sec) for start in starts]
@@ -82,42 +83,47 @@ def alarm_on(pred, threshold):
 def make_plot(
     pred, alarm, label_Tx, event_indices_single, pre_sec, post_sec, threshold
 ):
+    sns.set()
     fig, ax = plt.subplots(figsize=(8, 6), dpi=150)
 
     total_seg = pre_sec + post_sec
     seg_shift = total_seg - alarm.shape[0]
     MD_label = label_Tx[event_indices_single] > 1
+
     # plot predicted prob
-    ax.plot(
+    sns.lineplot(
         np.arange(total_seg),
         pred,
         color="C0",
         label="Pred Prob",
         linewidth=3,
         linestyle="--",
+        ax=ax,
     )
     # plot doc label
-    ax.plot(
+    sns.lineplot(
         np.arange(total_seg),
         MD_label,
         color="C1",
         label="Clinician Label",
         linewidth=3,
         linestyle="--",
+        ax=ax,
     )
     # plot alarm
-    ax.plot(
+    sns.lineplot(
         np.arange(seg_shift, total_seg),
         alarm,
         color="r",
         label=f"Alarm={threshold}",
-        linewidth=3,
+        linewidth=5,
+        ax=ax,
     )
     # plot ref line
     ax.hlines(y=[0.5], xmin=0, xmax=total_seg, linestyles="--", color="k", alpha=0.4)
     ax.set_xlabel("Time (seconds)", size=16)
     ax.set_ylabel("Prob abnormal", size=16)
-    ax.legend(loc="upper left", fontsize="x-large")
+    ax.legend(loc="upper left", fontsize="large")
     # save figure for individual event
     fig.savefig(f"static/img/prediction.png")
 
@@ -160,7 +166,7 @@ def generate_fig(subject_id, event_id, pre_sec, post_sec, threshold):
     power_Tx, label_Tx = create_Tx(power, label, Tx)
 
     # get event indices and select subset of power_Tx
-    event_indices = get_event_indices(subject_id, event_id, label_Tx, pre_sec, post_sec)
+    event_indices = get_event_indices(subject_id, label_Tx, pre_sec, post_sec)
     event_indices_single = event_indices[event_id]
 
     # get feature indices
