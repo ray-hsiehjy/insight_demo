@@ -20,9 +20,11 @@ def result():
     subject_id = int(request.form.get("subject"))
     event_id = int(request.form.get("event_id"))
     threshold = request.form.get("threshold")
-    sec_pre = int(request.form.get("sec_pre"))
-    sec_post = int(request.form.get("sec_post"))
+    duration = int(request.form.get("duration"))
+    sec_pre = duration // 2
+    sec_post = duration // 2
     generate_fig(subject_id, event_id, sec_pre, sec_post, threshold)
+
     return render_template(
         "result.html",
         url_pred="static/img/prediction.png",

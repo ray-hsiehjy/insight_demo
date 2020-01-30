@@ -115,7 +115,7 @@ def make_plot(
         np.arange(seg_shift, total_seg),
         alarm,
         color="r",
-        label=f"Alarm={threshold}",
+        label=f"Alarm",
         linewidth=5,
         ax=ax,
     )

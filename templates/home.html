@@ -12,29 +12,29 @@
                         <label for="subject">Subject</label>
                         <select id="subject" name="subject">
                             {% for i in [ 1,3,5,6,8,10,12,13,14,15,16,18,20,23,24] %}
-                            <option value={{i}}>Case_{{i}}</option>
+                            <option value={{i}}>subject_{{i}}</option>
                             {% endfor %}
                         </select>
                         <br>
-                        <label for="event_id">Episode index</label>
+                        <label for="event_id">Seizure episode</label>
                         <input type="text" id="event_id" name="event_id">
                         <br>
 
-                        <label for="threshold">Alarm Threshold</label>
+                        <label for="threshold">Alarm trigger</label>
                         <select name="threshold" id="threshold">
-                            <option value="L">Low</option>
-                            <option value="M">Medium</option>
-                            <option value="H">High</option>
+                            <option value="L">sensitive</option>
+                            <option value="M">normal</option>
+                            <option value="H">less sensitive</option>
                         </select>
                         <br>
 
-                        <label for="sec_pre">Number of seconds before onset</label>
-                        <input type="text" id="sec_pre" name="sec_pre" , placeholder="30">
+                        <label for="duration">duration to show</label>
+                        <input type="text" id="duration" name="duration" , placeholder="60">
                         <br>
-
+                        <!-- 
                         <label for="sec_post">Number of seconds after onset</label>
                         <input type="text" id="sec_post" name="sec_post" , placeholder="30">
-                        <br>
+                        <br> -->
 
                         <button type="submit" class="btn btn-primary">Submit</button>
                 </div>

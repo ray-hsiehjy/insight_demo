@@ -5,18 +5,18 @@
 
     <div class="row">
         <div class="col">
-            <h2>Prediction</h2>
+            <h3>Seizure Early Detection</h3>
         </div>
     </div>
     <div class="row">
         <div class="col">
-            <h4>Case: {{ subject_id }}, Event selected: {{ event_id }}</h4>
-            <img src={{ url_pred }} alt="Prediction_Figure" , width=450, hight=300>
+            <h4>Seizure Detected!!</h4>
+            <img src={{ url_pred }} alt="Prediction_Figure" , width=600, hight=450>
         </div>
-        <div class="col">
+        <!-- <div class="col">
             <h4>Average Performance</h4>
             <img src={{ url_avg }} alt="Average Performance" , width=450, hight=300>
-        </div>
+        </div> -->
     </div>
 </main>
 {% endblock content %}
