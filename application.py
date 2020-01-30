@@ -29,9 +29,7 @@ def result():
         "result.html",
         url_pred="static/img/prediction.png",
         url_avg=f"static/img/subject{subject_id}_avg.png",
-        subject_id=subject_id,
-        event_id=event_id,
-        title="Prediction",
+        title="Result",
     )
 
 
