@@ -69,9 +69,9 @@ def alarm_on(pred, threshold):
     if threshold == "L":
         trigger = 0.1
     elif threshold == "M":
-        trigger = 0.3
+        trigger = 0.25
     else:
-        trigger = 0.6
+        trigger = 0.4
     delta = np.diff(pred)
     M = 5  # number of diff to cal cum_prob
     total_seg = pred.shape[0]
