@@ -1,3 +1,4 @@
 utils/pickle**/
 .vscode
 __pycache__
+static/img/prediction.png
