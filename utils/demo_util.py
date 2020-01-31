@@ -91,15 +91,15 @@ def make_plot(
     MD_label = label_Tx[event_indices_single] > 1
 
     # plot predicted prob
-    sns.lineplot(
-        np.arange(total_seg),
-        pred,
-        color="C0",
-        label="Pred Prob",
-        linewidth=3,
-        linestyle="--",
-        ax=ax,
-    )
+    # sns.lineplot(
+    #     np.arange(total_seg),
+    #     pred,
+    #     color="C0",
+    #     label="Pred Prob",
+    #     linewidth=3,
+    #     linestyle="--",
+    #     ax=ax,
+    # )
     # plot doc label
     sns.lineplot(
         np.arange(total_seg),
