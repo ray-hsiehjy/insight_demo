@@ -15,14 +15,16 @@ def home():
     return render_template("home.html", title="Home")
 
 
-@app.route("/result", methods=["GET", "POST"])
+@app.route("/result", methods=["POST"])
 def result():
     subject_id = int(request.form.get("subject"))
     event_id = int(request.form.get("event_id"))
     threshold = request.form.get("threshold")
-    duration = int(request.form.get("duration"))
-    sec_pre = duration // 2
-    sec_post = duration // 2
+    # duration = int(request.form.get("duration"))
+    # sec_pre = duration // 2
+    # sec_post = duration // 2
+    sec_pre = 30
+    sec_post = 30
     generate_fig(subject_id, event_id, sec_pre, sec_post, threshold)
 
     return render_template(
