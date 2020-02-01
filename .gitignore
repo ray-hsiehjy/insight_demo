@@ -1,5 +1,4 @@
 utils/pickle**/
 utils/raw_edf/
 .vscode
-__pycache__
-*/__pycache__/
+bokeh.html

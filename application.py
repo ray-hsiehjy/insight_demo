@@ -1,13 +1,7 @@
 from flask import Flask, render_template, request, redirect
 from utils.demo_util_upload import clf_predict, alarm_on, make_plot
-
-# import matplotlib
 import pickle
 import numpy as np
-import time
-
-
-# matplotlib.use("Agg")
 
 app = Flask(__name__)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
@@ -22,7 +16,6 @@ def home():
 @app.route("/result", methods=["POST"])
 def result():
 
-    t1 = time.perf_counter()
     # get var from submitted form
     subject_id = int(request.form.get("subject"))
     edf_name = request.form.get("edf_name")
@@ -44,16 +37,7 @@ def result():
     # call for bokeh plot
     make_plot(alarm, label_Tx, warning_msg)
 
-    t2 = time.perf_counter()
-    t = t2 - t1
-
-    return render_template(
-        "result.html",
-        # url_pred="static/img/prediction.png",
-        t=t,
-        warning=warning_msg,
-        title="Result",
-    )
+    return render_template("result.html", warning=warning_msg, title="Result",)
 
 
 @app.route("/upload")
