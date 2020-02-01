@@ -37,7 +37,7 @@ def result():
     # call for bokeh plot
     make_plot(alarm, label_Tx, warning_msg)
 
-    return render_template("result.html", warning=warning_msg, title="Result",)
+    return render_template("result.html", warning_msg=warning_msg, title="Result",)
 
 
 @app.route("/upload")
