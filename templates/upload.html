@@ -9,12 +9,7 @@
                 <h3>Seizure Early Detection</h3>
                 <div class="form-group">
                     <form action="/result" method="POST">
-                        <label for="edf_name">Choose a File</label>
-                        <select id="edf_name" name="edf_name">
-                            {% for name in ['chb10_01.edf', 'chb10_02.edf', 'chb10_03.edf', 'chb10_04.edf', 'chb10_05.edf', 'chb10_06.edf', 'chb10_07.edf', 'chb10_08.edf', 'chb10_12.edf', 'chb10_13.edf', 'chb10_14.edf', 'chb10_15.edf', 'chb10_16.edf', 'chb10_17.edf', 'chb10_18.edf', 'chb10_19.edf', 'chb10_20.edf', 'chb10_21.edf', 'chb10_22.edf', 'chb10_27.edf', 'chb10_28.edf', 'chb10_30.edf', 'chb10_31.edf', 'chb10_38.edf', 'chb10_89.edf'] %}
-                            <option value={{name}}>{{name[:-4]}}</option>
-                            {% endfor %}
-                        </select>
+                        <input type="file" name="fileToUpload" id="fileToUpload">
                         <br>
                         <label for="subject">Choose pretrained model</label>
                         <select id="subject" name="subject">
@@ -30,14 +25,14 @@
                             <option value="L">sensitive</option>
                         </select>
                         <br>
-                        <button type="submit" class="btn btn-primary">Submit</button>
+                        <button type="submit" class="btn btn-primary">Upload</button>
                     </form>
                 </div>
             </div>
         </div>
         <div class="row">
             <div class="col">
-                <h6><a href="/upload">Have EDF file? Upload Here</a></h6>
+                <h6><a href="/home">No EDF file? Use sample files here</a></h6>
             </div>
         </div>
     </div>

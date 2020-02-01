@@ -1,9 +1,13 @@
-from flask import Flask, render_template, request
-from utils.demo_util import generate_fig
-import matplotlib
-import os
+from flask import Flask, render_template, request, redirect
+from utils.demo_util_upload import clf_predict, alarm_on, make_plot
 
-matplotlib.use("Agg")
+# import matplotlib
+import pickle
+import numpy as np
+import time
+
+
+# matplotlib.use("Agg")
 
 app = Flask(__name__)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
@@ -17,20 +21,46 @@ def home():
 
 @app.route("/result", methods=["POST"])
 def result():
+
+    t1 = time.perf_counter()
+    # get var from submitted form
     subject_id = int(request.form.get("subject"))
-    event_id = int(request.form.get("event_id"))
+    edf_name = request.form.get("edf_name")
     threshold = request.form.get("threshold")
-    sec_pre = 30
-    sec_post = 30
-    generate_fig(subject_id, event_id, sec_pre, sec_post, threshold)
+
+    # predict prob
+    pred, label_Tx = clf_predict(edf_name, subject_id)
+
+    # cal alarm on/off
+    alarm = alarm_on(pred, threshold)
+
+    # difine warning_msg
+    detected = alarm.sum()
+    if detected >= 1:
+        warning_msg = "Seizure Detected!!"
+    else:
+        warning_msg = "Seizure NOT Detected!!"
+
+    # call for bokeh plot
+    make_plot(alarm, label_Tx, warning_msg)
+
+    t2 = time.perf_counter()
+    t = t2 - t1
 
     return render_template(
         "result.html",
-        url_pred="static/img/prediction.png",
-        url_avg=f"static/img/subject{subject_id}_avg.png",
+        # url_pred="static/img/prediction.png",
+        t=t,
+        warning=warning_msg,
         title="Result",
     )
 
 
+@app.route("/upload")
+def upload():
+    return render_template("upload.html")
+
+
 if __name__ == "__main__":
     app.run(debug=True, host="0.0.0.0")
+
