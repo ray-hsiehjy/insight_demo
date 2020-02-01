@@ -1,6 +1,6 @@
 from utils.edf2pickle_utils import read_edf, bandpower
 from tensorflow.keras.models import load_model
-from bokeh.plotting import figure, output_file, show
+from bokeh.plotting import figure, output_file, save
 import numpy as np
 import pickle
 
@@ -161,9 +161,6 @@ def make_plot(alarm, label_Tx, warning_msg):
 
     shift = label_Tx.shape[0] - alarm.shape[0]
 
-    # output to static HTML file
-    output_file("bokeh.html", title="Seizure Alarm")
-
     # create a new plot with a title and axis labels
     p = figure(title=warning_msg, x_axis_label="Time (seconds)", y_axis_label=None)
     p.title.text_font_size = "20pt"
@@ -185,5 +182,6 @@ def make_plot(alarm, label_Tx, warning_msg):
         line_dash="4 4",
     )
 
-    # show the results
-    show(p)
+    # output to static HTML file
+    output_file("templates/bokeh.html", title="Seizure Alarm")
+    save(p)
