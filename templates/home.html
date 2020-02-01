@@ -8,25 +8,25 @@
             <div class="col">
                 <h3>Seizure Early Detection</h3>
                 <div class="form-group">
-                    <form action="/result" method="POST">
+                    <form action="/home" method="POST">
                         <label for="edf_name">Choose a File</label>
                         <select id="edf_name" name="edf_name">
-                            {% for name in ['chb10_01.edf', 'chb10_02.edf', 'chb10_03.edf', 'chb10_04.edf', 'chb10_05.edf', 'chb10_06.edf', 'chb10_07.edf', 'chb10_08.edf', 'chb10_12.edf', 'chb10_13.edf', 'chb10_14.edf', 'chb10_15.edf', 'chb10_16.edf', 'chb10_17.edf', 'chb10_18.edf', 'chb10_19.edf', 'chb10_20.edf', 'chb10_21.edf', 'chb10_22.edf', 'chb10_27.edf', 'chb10_28.edf', 'chb10_30.edf', 'chb10_31.edf', 'chb10_38.edf', 'chb10_89.edf'] %}
+                            {% for name in ['chb10_12.edf', 'chb10_01.edf', 'chb10_02.edf', 'chb10_03.edf', 'chb10_04.edf', 'chb10_05.edf', 'chb10_06.edf', 'chb10_07.edf', 'chb10_08.edf', 'chb10_13.edf', 'chb10_14.edf', 'chb10_15.edf', 'chb10_16.edf', 'chb10_17.edf', 'chb10_18.edf', 'chb10_19.edf', 'chb10_20.edf', 'chb10_21.edf', 'chb10_22.edf', 'chb10_27.edf', 'chb10_28.edf', 'chb10_30.edf', 'chb10_31.edf', 'chb10_38.edf', 'chb10_89.edf'] %}
                             <option value={{name}}>{{name[:-4]}}</option>
                             {% endfor %}
                         </select>
                         <br>
                         <label for="subject">Choose pretrained model</label>
                         <select id="subject" name="subject">
-                            {% for i in [1,3,5,6,8,10,12,13,14,15,16,18,20,23,24] %}
+                            {% for i in [10,1,3,5,6,8,12,13,14,15,16,18,20,23,24] %}
                             <option value={{i}}>subject_{{i}}</option>
                             {% endfor %}
                         </select>
                         <br>
                         <label for="threshold">Alarm trigger</label>
                         <select name="threshold" id="threshold">
-                            <option value="M">normal</option>
                             <option value="H">less sensitive</option>
+                            <option value="M">normal</option>
                             <option value="L">sensitive</option>
                         </select>
                         <br>
