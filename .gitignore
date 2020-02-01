@@ -2,3 +2,4 @@ utils/pickle**/
 utils/raw_edf/
 .vscode
 bokeh.html
+usr_upload/
