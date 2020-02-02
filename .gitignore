@@ -1,4 +1,6 @@
 utils/pickle**/
 utils/raw_edf/
+utils/__pycache__/*.pyc
 .vscode
 usr_upload/
+static/bokeh.html

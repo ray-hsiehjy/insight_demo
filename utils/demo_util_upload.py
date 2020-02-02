@@ -161,7 +161,7 @@ def make_plot(alarm, label_Tx, warning_msg):
 
     shift = label_Tx.shape[0] - alarm.shape[0]
     # output to static HTML file
-    output_file("templates/bokeh.html", title="Seizure Alarm")
+    output_file("static/bokeh.html", title="Seizure Alarm")
 
     # create a new plot with a title and axis labels
     p = figure(title=warning_msg, x_axis_label="Time (seconds)", y_axis_label=None)

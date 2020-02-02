@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect
+from flask import Flask, render_template, request, redirect, send_from_directory
 from utils.demo_util_upload import clf_predict, alarm_on, make_plot
 import pickle
 import numpy as np
@@ -30,16 +30,11 @@ def home():
         else:
             warning_msg = "Seizure NOT Detected!"
 
-        # call for bokeh plot
+        # call for bokeh plot as static file
         make_plot(alarm, label_Tx, warning_msg)
-        time.sleep(2)
-        return redirect("/bokeh")
+
+        return send_from_directory("static", "bokeh.html")
     return render_template("home.html", title="Home")
-
-
-@app.route("/bokeh")
-def bokeh():
-    return render_template("bokeh.html")
 
 
 @app.route("/upload")
