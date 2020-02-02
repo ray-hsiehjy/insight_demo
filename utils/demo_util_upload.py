@@ -169,14 +169,14 @@ def make_plot(alarm, label_Tx, warning_msg):
     p.line(
         np.arange(shift, label_Tx.shape[0]),
         alarm,
-        legend="Alarm",
+        legend_label="Alarm",
         line_width=3,
         color="red",
     )
     p.line(
         np.arange(label_Tx.shape[0]),
         label_Tx,
-        legend="Clinician Label",
+        legend_label="Clinician Label",
         line_width=3,
         color="orange",
         line_dash="4 4",
