@@ -26,9 +26,9 @@ def home():
         # difine warning_msg
         detected = alarm.sum()
         if detected >= 1:
-            warning_msg = "Seizure Detected!!"
+            warning_msg = "Seizure Detected!"
         else:
-            warning_msg = "Seizure NOT Detected!!"
+            warning_msg = "Seizure NOT Detected!"
 
         # call for bokeh plot
         make_plot(alarm, label_Tx, warning_msg)
@@ -48,5 +48,5 @@ def upload():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
 
