@@ -2,6 +2,7 @@ from flask import Flask, render_template, request, redirect
 from utils.demo_util_upload import clf_predict, alarm_on, make_plot
 import pickle
 import numpy as np
+import time
 
 app = Flask(__name__)
 app.config["SEND_FILE_MAX_AGE_DEFAULT"] = 0
@@ -31,6 +32,7 @@ def home():
 
         # call for bokeh plot
         make_plot(alarm, label_Tx, warning_msg)
+        time.sleep(2)
         return redirect("/bokeh")
     return render_template("home.html", title="Home")
 
