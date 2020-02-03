@@ -4,12 +4,18 @@
 
 <main>
     <div class="container">
+        <br>
+        <br>
+        <br>
+        <br>
         <div class="row">
+            <div class="col"></div>
             <div class="col">
-                <h3>Seizure Early Detection</h3>
+                <h2>Seizure Early Detection</h2>
+                <br>
                 <div class="form-group">
-                    <form action="/home" method="POST">
-                        <input type="file" name="fileToUpload" id="fileToUpload">
+                    <form action="/upload" , method=post enctype=multipart/form-data> <input type="file" name="file"
+                        id="file">
                         <br>
                         <label for="subject">Choose pretrained model</label>
                         <select id="subject" name="subject">
@@ -25,15 +31,18 @@
                             <option value="L">sensitive</option>
                         </select>
                         <br>
-                        <button type="submit" class="btn btn-primary">Upload</button>
+                        <button type="submit" class="btn btn-primary" , value="upload">Upload</button>
                     </form>
+                    <br>
+                    <h6><a href="/home">No EDF file? Use sample files here</a></h6>
+                    <br>
+                    <h6>Requirement:</h6>
+                    <li>File must be in EDF format</li>
+                    <li>Recording done with 10-20 EEG system</li>
+                    <li>Sampling Frequency has to be >= 256 Hz</li>
                 </div>
             </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <h6><a href="/home">No EDF file? Use sample files here</a></h6>
-            </div>
+            <div class="col"></div>
         </div>
     </div>
 </main>

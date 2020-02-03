@@ -5,6 +5,10 @@ import numpy as np
 import pickle
 
 
+def check_filetype(filename):
+    return "." in filename and filename.rsplit(".", 1)[1].lower() == "edf"
+
+
 def edf2psd(edf_name, subject_id):
 
     # define variables
@@ -62,7 +66,7 @@ def get_label(edf_name, f_duration):
     label = np.zeros(f_duration - 4 + 1)
     with open(f"utils/ref_dict.pickle", "rb") as f:
         ref_dict = pickle.load(f)
-    events = ref_dict.get(edf_name, None)
+    events = ref_dict.get(edf_name, [])
     if len(events) != 0:
         idx = []
         for event in events:
@@ -177,7 +181,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
             line_dash="4 4",
         )
     p.line(
-        np.arange(shift, label_Tx.shape[0]),
+        np.arange(shift, alarm.shape[0] + shift),
         alarm,
         legend_label="Alarm",
         line_width=3,
