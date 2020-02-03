@@ -31,7 +31,7 @@ def home():
             warning_msg = "Seizure NOT Detected!"
 
         # call for bokeh plot as static file
-        make_plot(alarm, label_Tx, warning_msg)
+        make_plot(alarm, warning_msg, label_Tx=label_Tx)
 
         return send_from_directory("static", "bokeh.html")
     return render_template("home.html", title="Home")
@@ -43,5 +43,5 @@ def upload():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
 

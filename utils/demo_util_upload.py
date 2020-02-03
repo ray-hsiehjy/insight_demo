@@ -58,10 +58,9 @@ def edf2psd(edf_name, subject_id):
     return f_duration, ps
 
 
-def get_label(edf_name, subject_id, f_duration):
+def get_label(edf_name, f_duration):
     label = np.zeros(f_duration - 4 + 1)
-    subject_str = str(subject_id).zfill(2)
-    with open(f"utils/pickle_ref_dict/chb{subject_str}_ref_dict.pickle", "rb") as f:
+    with open(f"utils/ref_dict.pickle", "rb") as f:
         ref_dict = pickle.load(f)
     events = ref_dict.get(edf_name, None)
     if len(events) != 0:
@@ -123,7 +122,7 @@ def clf_predict(edf_name, subject_id):
     # get powerspectrum and file duration in sec
     f_duration, ps = edf2psd(edf_name, subject_id)
     # get doc's label
-    label = get_label(edf_name, subject_id, f_duration)
+    label = get_label(edf_name, f_duration)
     # create Tx for LSTM
     Tx = Tx_dict.get(subject_id, 8)
     power_Tx, label_Tx = create_Tx(ps, label, Tx)
@@ -157,9 +156,8 @@ def alarm_on(pred, threshold):
     return alarm
 
 
-def make_plot(alarm, label_Tx, warning_msg):
+def make_plot(alarm, warning_msg, label_Tx=None):
 
-    shift = label_Tx.shape[0] - alarm.shape[0]
     # output to static HTML file
     output_file("static/bokeh.html", title="Seizure Alarm")
 
@@ -167,7 +165,17 @@ def make_plot(alarm, label_Tx, warning_msg):
     p = figure(title=warning_msg, x_axis_label="Time (seconds)", y_axis_label=None)
     p.title.text_font_size = "20pt"
 
-    # add a line renderer with legend and line thickness
+    shift = 0
+    if label_Tx is not None:
+        shift = label_Tx.shape[0] - alarm.shape[0]
+        p.line(
+            np.arange(label_Tx.shape[0]),
+            label_Tx,
+            legend_label="Clinician Label",
+            line_width=3,
+            color="orange",
+            line_dash="4 4",
+        )
     p.line(
         np.arange(shift, label_Tx.shape[0]),
         alarm,
@@ -175,13 +183,4 @@ def make_plot(alarm, label_Tx, warning_msg):
         line_width=3,
         color="red",
     )
-    p.line(
-        np.arange(label_Tx.shape[0]),
-        label_Tx,
-        legend_label="Clinician Label",
-        line_width=3,
-        color="orange",
-        line_dash="4 4",
-    )
-
     save(p)
