@@ -1,9 +1,9 @@
 from utils.edf2pickle_utils import read_edf, bandpower
 from tensorflow.keras.models import load_model
-from bokeh.io import save
+from bokeh.io import save, output_file
 from bokeh.layouts import column
 from bokeh.models import ColumnDataSource, RangeTool
-from bokeh.plotting import figure, output_file
+from bokeh.plotting import figure
 import numpy as np
 import pickle
 
