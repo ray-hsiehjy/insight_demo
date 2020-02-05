@@ -167,6 +167,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
 
     output_file("static/bokeh.html", title="Seizure Alarm")
 
+    # define what to plot
     shift = 0
     alarm_x = np.arange(shift, alarm.shape[0] + shift)
     source = ColumnDataSource(data=dict(alarm_x=alarm_x, alarm=alarm))
@@ -181,6 +182,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
             )
         )
 
+    # make an upper figure in the column object
     p = figure(
         title=warning_msg,
         plot_height=400,
@@ -192,6 +194,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
         x_range=(alarm_x[1000], alarm_x[1060]),
     )
 
+    # draw alarm in upper figure
     p.line(
         "alarm_x",
         "alarm",
@@ -200,12 +203,8 @@ def make_plot(alarm, warning_msg, label_Tx=None):
         color="red",
         source=source,
     )
-    p.yaxis.ticker = [0, 1]
-    p.yaxis.major_label_overrides = {0: "OFF", 1: "ON"}
-    p.yaxis.axis_label = "Seizure"
-    p.xaxis.axis_label = "Time (seconds)"
-    p.title.text_font_size = "20pt"
 
+    # make a lower figure in the column object
     select = figure(
         plot_height=200,
         plot_width=800,
@@ -216,16 +215,11 @@ def make_plot(alarm, warning_msg, label_Tx=None):
         background_fill_color="#efefef",
     )
 
-    range_tool = RangeTool(x_range=p.x_range)
-    range_tool.overlay.fill_color = "navy"
-    range_tool.overlay.fill_alpha = 0.2
-
+    # plot alarm in lower figure
     select.line("alarm_x", "alarm", source=source)
-    select.ygrid.grid_line_color = None
-    select.add_tools(range_tool)
-    select.toolbar.active_multi = range_tool
 
     if label_Tx is not None:
+        # draw label in the upper figure
         p.line(
             "label_Tx_x",
             "label_Tx",
@@ -235,9 +229,26 @@ def make_plot(alarm, warning_msg, label_Tx=None):
             line_dash="4 4",
             source=source,
         )
-
+        # draw label in the lower figure
         select.line(
             "label_Tx_x", "label_Tx", color="orange", line_dash="4 4", source=source
         )
 
+    # cosmetic changes
+    for panel in [p, select]:
+        panel.yaxis.ticker = [0, 1]
+        panel.yaxis.major_label_overrides = {0: "OFF", 1: "ON"}
+    p.yaxis.axis_label = "Seizure"
+    p.xaxis.axis_label = "Time (seconds)"
+    p.title.text_font_size = "20pt"
+    select.ygrid.grid_line_color = None
+
+    # add in tool
+    range_tool = RangeTool(x_range=p.x_range)
+    range_tool.overlay.fill_color = "navy"
+    range_tool.overlay.fill_alpha = 0.2
+    select.add_tools(range_tool)
+    select.toolbar.active_multi = range_tool
+
+    # save column object to html defined by output_file
     save(column(p, select))
