@@ -168,17 +168,19 @@ def make_plot(alarm, warning_msg, label_Tx=None):
     output_file("static/bokeh.html", title="Seizure Alarm")
 
     # define what to plot
-    shift = 0
-    alarm_x = np.arange(shift, alarm.shape[0] + shift)
+    alarm_x = np.arange(alarm.shape[0])
     source = ColumnDataSource(data=dict(alarm_x=alarm_x, alarm=alarm))
 
     if label_Tx is not None:
         shift = label_Tx.shape[0] - alarm.shape[0]
-        alarm_x = np.arange(shift, alarm.shape[0] + shift)
+        alarm = np.pad(alarm, (shift, 0), mode="constant", constant_values=0)
         label_Tx_x = np.arange(label_Tx.shape[0])
         source = ColumnDataSource(
             data=dict(
-                alarm_x=alarm_x, alarm=alarm, label_Tx_x=label_Tx_x, label_Tx=label_Tx,
+                alarm_x=label_Tx_x,
+                alarm=alarm,
+                label_Tx_x=label_Tx_x,
+                label_Tx=label_Tx,
             )
         )
 
