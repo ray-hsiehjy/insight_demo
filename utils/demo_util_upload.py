@@ -216,7 +216,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
     )
 
     # plot alarm in lower figure
-    select.line("alarm_x", "alarm", source=source)
+    select.line("alarm_x", "alarm", color="red", source=source)
 
     if label_Tx is not None:
         # draw label in the upper figure
