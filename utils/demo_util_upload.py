@@ -1,6 +1,9 @@
 from utils.edf2pickle_utils import read_edf, bandpower
 from tensorflow.keras.models import load_model
-from bokeh.plotting import figure, output_file, save
+from bokeh.io import save
+from bokeh.layouts import column
+from bokeh.models import ColumnDataSource, RangeTool
+from bokeh.plotting import figure, output_file
 import numpy as np
 import pickle
 
@@ -162,29 +165,79 @@ def alarm_on(pred, threshold):
 
 def make_plot(alarm, warning_msg, label_Tx=None):
 
-    # output to static HTML file
     output_file("static/bokeh.html", title="Seizure Alarm")
 
-    # create a new plot with a title and axis labels
-    p = figure(title=warning_msg, x_axis_label="Time (seconds)", y_axis_label=None)
-    p.title.text_font_size = "20pt"
-
     shift = 0
+    alarm_x = np.arange(shift, alarm.shape[0] + shift)
+    source = ColumnDataSource(data=dict(alarm_x=alarm_x, alarm=alarm))
+
     if label_Tx is not None:
         shift = label_Tx.shape[0] - alarm.shape[0]
-        p.line(
-            np.arange(label_Tx.shape[0]),
-            label_Tx,
-            legend_label="Clinician Label",
-            line_width=3,
-            color="orange",
-            line_dash="4 4",
+        alarm_x = np.arange(shift, alarm.shape[0] + shift)
+        label_Tx_x = np.arange(label_Tx.shape[0])
+        source = ColumnDataSource(
+            data=dict(
+                alarm_x=alarm_x, alarm=alarm, label_Tx_x=label_Tx_x, label_Tx=label_Tx,
+            )
         )
+
+    p = figure(
+        title=warning_msg,
+        plot_height=400,
+        plot_width=800,
+        tools="xpan",
+        toolbar_location=None,
+        x_axis_location="above",
+        background_fill_color="#efefef",
+        x_range=(alarm_x[1000], alarm_x[1060]),
+    )
+
     p.line(
-        np.arange(shift, alarm.shape[0] + shift),
-        alarm,
+        "alarm_x",
+        "alarm",
         legend_label="Alarm",
         line_width=3,
         color="red",
+        source=source,
     )
-    save(p)
+    p.yaxis.ticker = [0, 1]
+    p.yaxis.major_label_overrides = {0: "OFF", 1: "ON"}
+    p.yaxis.axis_label = "Seizure"
+    p.xaxis.axis_label = "Time (seconds)"
+    p.title.text_font_size = "20pt"
+
+    select = figure(
+        plot_height=200,
+        plot_width=800,
+        y_range=p.y_range,
+        y_axis_type=None,
+        tools="",
+        toolbar_location=None,
+        background_fill_color="#efefef",
+    )
+
+    range_tool = RangeTool(x_range=p.x_range)
+    range_tool.overlay.fill_color = "navy"
+    range_tool.overlay.fill_alpha = 0.2
+
+    select.line("alarm_x", "alarm", source=source)
+    select.ygrid.grid_line_color = None
+    select.add_tools(range_tool)
+    select.toolbar.active_multi = range_tool
+
+    if label_Tx is not None:
+        p.line(
+            "label_Tx_x",
+            "label_Tx",
+            legend_label="clinician label",
+            line_width=3,
+            color="orange",
+            line_dash="4 4",
+            source=source,
+        )
+
+        select.line(
+            "label_Tx_x", "label_Tx", color="orange", line_dash="4 4", source=source
+        )
+
+    save(column(p, select))
