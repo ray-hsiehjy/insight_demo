@@ -72,7 +72,7 @@ def upload():
             edf_file.save(os.path.join(app.config["UPLOAD_FOLDER"], f"usr_{edf_name}"))
 
             # predict prob
-            pred, _ = clf_predict(edf_name, subject_id)
+            pred, _ = clf_predict(f"usr_{edf_name}", subject_id)
             # cal alarm on/off
             alarm = alarm_on(pred, threshold)
             # difine warning_msg
@@ -89,5 +89,5 @@ def upload():
 
 
 if __name__ == "__main__":
-    app.run(debug=False, host="0.0.0.0")
+    app.run(debug=True, host="0.0.0.0")
 
