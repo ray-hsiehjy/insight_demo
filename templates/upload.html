@@ -20,7 +20,7 @@
                         <label for="subject">Choose pretrained model</label>
                         <select id="subject" name="subject">
                             {% for i in [1,3,5,6,8,10,12,13,14,15,16,18,20,23,24] %}
-                            <option value={{i}}>subject_{{i}}</option>
+                            <option value={{i}}>model_{{i}}</option>
                             {% endfor %}
                         </select>
                         <br>
@@ -39,6 +39,7 @@
                     <h6>Requirement:</h6>
                     <li>File must be in EDF format</li>
                     <li>Recording done with 10-20 EEG system</li>
+                    <li>Channel names must be in EDF header</li>
                     <li>Sampling Frequency has to be >= 256 Hz</li>
                 </div>
             </div>
