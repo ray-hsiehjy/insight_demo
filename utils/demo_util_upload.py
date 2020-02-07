@@ -185,6 +185,11 @@ def make_plot(alarm, warning_msg, label_Tx=None):
         )
 
     # make an upper figure in the column object
+    start = 1000
+    end = 1060
+    if alarm_x.shape[0] < 1060:
+        start = 0
+        end = 60
     p = figure(
         title=warning_msg,
         plot_height=400,
@@ -193,7 +198,7 @@ def make_plot(alarm, warning_msg, label_Tx=None):
         toolbar_location=None,
         x_axis_location="above",
         background_fill_color="#efefef",
-        x_range=(alarm_x[1000], alarm_x[1060]),
+        x_range=(alarm_x[start], alarm_x[end]),
     )
 
     # draw alarm in upper figure
@@ -245,10 +250,12 @@ def make_plot(alarm, warning_msg, label_Tx=None):
     p.title.text_font_size = "20pt"
     select.ygrid.grid_line_color = None
 
-    # add in tool
+    # create a range tool
     range_tool = RangeTool(x_range=p.x_range)
     range_tool.overlay.fill_color = "navy"
     range_tool.overlay.fill_alpha = 0.2
+
+    # add range tool to lower figure
     select.add_tools(range_tool)
     select.toolbar.active_multi = range_tool
 
