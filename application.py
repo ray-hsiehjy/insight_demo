@@ -23,7 +23,7 @@ app.config["UPLOAD_FOLDER"] = UPLOAD_FOLDER
 def home():
     if request.method == "POST":
         # get var from submitted form
-        subject_id = int(request.form.get("subject"))
+        subject_id = 20
         edf_name = request.form.get("edf_name")
         threshold = request.form.get("threshold")
 
